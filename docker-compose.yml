@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  rovermars:
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      target: build
+    container_name: rovermars
+    command: npm start
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
