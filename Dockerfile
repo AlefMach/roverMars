@@ -11,6 +11,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
+RUN npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
 
 COPY . ./
 
