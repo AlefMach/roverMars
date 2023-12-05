@@ -13,7 +13,7 @@ class EnvironmentVariable {
 
   public static getFilePath(): string {
     // Get file path in .env variable file
-    const file_path: string = process.env.FILE_PATH ?? "../../input_data.txt";
+    const file_path: string = process.env.FILE_PATH ?? "../../__tests__/input_test_data.txt";
     return file_path;
   }
 }
