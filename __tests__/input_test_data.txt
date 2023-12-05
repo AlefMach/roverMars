@@ -1,0 +1,37 @@
+5 5
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
+
+-------------------
+
+5 7
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
+
+-------------------
+
+0 0
+1 2 N
+LMLMLMLMM
+3 3 E
+LLLMMLLMR
+
+-------------------
+
+0 1
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
+
+-------------------
+
+0 3
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
