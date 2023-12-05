@@ -1,4 +1,4 @@
-import RegexDefault from "./utils/RegexDefault";
+import RegexDefault from "../utils/RegexDefault";
 
 class List {
   public static organize_list(list: string[]): string[] {

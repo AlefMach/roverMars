@@ -1,31 +1,40 @@
 import List from "./List";
 import Rover from "./Rover";
-import RegexDefault from "./utils/RegexDefault";
-import File from "./File";
+import RegexDefault from "../utils/RegexDefault";
 
 class Coordinate {
-  private list: string[];
-  private list_with_only_commands: string[][];
+  private matrix_init: string[][];
+  private list: string[] = [];
+  private list_with_only_commands: string[][] = [];
   private plateauWidth: number = 0;
   private plateauHeight: number = 0;
   private x: number = 0;
   private y: number = 0;
   private cardinal_point: "N" | "S" | "E" | "W" = "N";
+  private response_rover: string[] = [];
 
-  constructor(list: string[]) {
-    this.list = list;
-    this.set_rectangle_size();
-    this.list_with_only_commands = List.split_list_in_parts(this.list);
+  constructor(matrix: string[][]) {
+    this.matrix_init = matrix;
   }
 
   public get_new_coordinate(): string[] {
-    let response: any[] = [];
-    this.list_with_only_commands.forEach((coordinates: string[]) => {
-      this.set_x_and_y_axis(coordinates[0]);
-      response.push(this.move_rover_and_save_new_information(coordinates[1]));
+    this.matrix_init.forEach((list_string: string[]) => {
+      this.list = list_string;
+      this.set_rectangle_size();
+      this.list_with_only_commands = List.split_list_in_parts(this.list);
+
+      this.list_with_only_commands.forEach((coordinates: string[]) => {
+        this.set_x_and_y_axis(coordinates[0]);
+        this.move_rover_and_save_new_information(coordinates[1]);
+      });
     });
 
-    return response;
+    const normalize_array: string[] = this.response_rover.filter(
+      (str) => str.trim() !== ""
+    );
+
+
+    return normalize_array;
   }
 
   private set_rectangle_size(): void {
@@ -63,17 +72,17 @@ class Coordinate {
     }
   }
 
-  private move_rover_and_save_new_information(value: string): string[] {
-    const rover = new Rover(
-      this.plateauWidth,
-      this.plateauHeight,
-      this.x,
-      this.y,
-      this.cardinal_point
-    );
-
+  private move_rover_and_save_new_information(value: string): void {
     try {
       if (value.match(RegexDefault.regex_MRL)) {
+        const rover = new Rover(
+          this.plateauWidth,
+          this.plateauHeight,
+          this.x,
+          this.y,
+          this.cardinal_point
+        );
+
         const movements: string[] = value.split("");
         movements.forEach((movement: string) => {
           switch (movement) {
@@ -90,24 +99,21 @@ class Coordinate {
               break;
           }
         });
+
+        const new_coordinate: string = `${
+          rover.getPositionX() +
+          " " +
+          rover.getPositionY() +
+          " " +
+          rover.getDirection() + 
+          "\n"
+        }`;
+
+        this.response_rover.push(new_coordinate);
       }
-
-      const new_coordinate: string = `${
-        rover.getPositionX() +
-        " " +
-        rover.getPositionY() +
-        " " +
-        rover.getDirection()
-      }`;
-
-      let response_rover: string[] = [];
-
-      response_rover.push(new_coordinate);
-
-      return response_rover;
-    } catch(e) {
-      console.error("Error while processing response, error message: " + e)
-      return [];
+    } catch (e) {
+      console.error("Error while processing response, error message: " + e);
+      this.response_rover.push("");
     }
   }
 }

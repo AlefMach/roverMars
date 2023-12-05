@@ -3,8 +3,6 @@
 LMLMLMLMM
 3 3 E
 MMRMMRMRRM
-3 4 E
-MMRMMRMRRM
 
 -------------------
 

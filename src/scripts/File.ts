@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import List from "./List";
-import RegexDefault from "./utils/RegexDefault";
+import RegexDefault from "../utils/RegexDefault";
 
 class File {
   private filePath: string;

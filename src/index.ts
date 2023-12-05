@@ -11,16 +11,16 @@ const fn = async (): Promise<void> => {
     const filePath: string = EnvironmentVariable.getFilePath();
     const file = new File(filePath);
     const content: string[][] | string = await file.contentFile();
+    let response: string[] = [];
+
     if (Array.isArray(content) && content.length > 0) {
-      content.forEach((list_string: string[]) => {
-        const coordinate = new Coordinate(list_string);
-        const response: string[] = coordinate.get_new_coordinate();
+      const coordinate = new Coordinate(content);
+      response = coordinate.get_new_coordinate();
 
-        console.log(response)
-
-        // const file_path: string = "../../response_rover/response.txt";
-        // const file = new File(file_path);
-        // file.writeTextFile(new_coordinate);
+      response.forEach((text_value: string) => {
+        const file_path: string = "../../response_rover/response.txt";
+        const file = new File(file_path);
+        file.writeTextFile(text_value);
       });
     } else {
       console.error("Error executing file");
