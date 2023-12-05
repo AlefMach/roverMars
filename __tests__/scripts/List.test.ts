@@ -10,7 +10,7 @@ test("should be organize list correctly", () => {
     "MMRMMRMRRM",
   ];
 
-  const current_list: string[] = List.organize_list(list);
+  const current_list: string[] = List.organizeList(list);
 
   expect(current_list).toStrictEqual(expected_list);
 });
@@ -22,7 +22,7 @@ test("should be organize list correctly in matrix", () => {
     ["3 3 E", "MMRMMRMRRM"],
   ];
 
-  const current_list: string[][] = List.split_list_in_parts(list);
+  const current_list: string[][] = List.splitListInParts(list);
 
   expect(current_list).toStrictEqual(expected_list);
 });

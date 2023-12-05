@@ -11,45 +11,35 @@ class File {
   }
 
   public async contentFile(): Promise<string[][] | string> {
-    const file_content: { content: string[] } | { status: false } =
-      await this.getTextFile();
+    try {
+      const fileContent = await this.getTextFile();
 
-    if ("content" in file_content) {
-      const validate: any[] = this.validate_all_params(file_content.content);
+      if ("content" in fileContent) {
+        const validatedData = this.validateAllParams(fileContent.content);
+        const validData = validatedData.filter((element) => element.status);
 
-      const validate_status = validate.filter((element: object) => {
-        const content = "content" in element ? element.content : "";
+        const response: string[][] = validData.map((element) => {
+          const contentArray: string[] = Array.isArray(element.content)
+            ? element.content
+            : [""];
+          return contentArray;
+        });
 
-        if ("status" in element && element.status) {
-          console.log("Moving on to processing, content", content);
-          return true;
-        } else {
-          console.error("Missing or invalid parameters, content: ", content);
-          return false;
-        }
-      });
+        return response;
+      }
 
-      let response: string[][] = [];
-
-      validate_status.forEach((element: object) => {
-        const content: unknown = "content" in element ? element.content : [""];
-        const contentArray: string[] = Array.isArray(content) ? content : [""];
-        response.push(contentArray);
-      });
-
-      return response;
+      return "File not found";
+    } catch (error) {
+      console.error("Error reading file:", error);
+      return "Error reading file";
     }
-
-    return "File not found";
   }
 
   public writeTextFile(value: string): void {
-    // Escrever dados no arquivo
+    // Write data to the file
     fs.appendFile(this.filePath, value, "utf8", (err) => {
       if (err) {
-        console.error("Erro ao escrever no arquivo:", err);
-      } else {
-        return;
+        console.error("Error writing to file:", err);
       }
     });
   }
@@ -65,8 +55,8 @@ class File {
           }
         });
       } else {
-        console.error(`O arquivo ${this.filePath} não foi encontrado.`);
-        return;
+        console.error(`The file ${this.filePath} was not found.`);
+        reject(`File not found: ${this.filePath}`);
       }
     });
   }
@@ -74,83 +64,60 @@ class File {
   private async getTextFile(): Promise<
     { content: string[] } | { status: false }
   > {
-    return await this.readTextFile()
-      .then((fileContent: string) => {
-        console.log("Content file: \n", fileContent);
+    try {
+      const fileContent: string = await this.readTextFile();
+      console.log("Content file: \n", fileContent);
 
-        // Separate string by traits
-        const fileContentArray: string[] = fileContent.split(/[-]+/);
-        const object_content: { content: string[] } = {
-          content: fileContentArray,
-        };
+      // Separate string by traits
+      const fileContentArray: string[] = fileContent.split(/[-]+/);
+      const objectContent: { content: string[] } = {
+        content: fileContentArray,
+      };
 
-        return object_content;
-      })
-      .catch((error) => {
-        console.error("Erro ao ler o arquivo:", error);
-        const object_content: { status: false } = {
-          status: false,
-        };
-        return object_content;
-      });
+      return objectContent;
+    } catch (error) {
+      console.error("Error reading file:", error);
+      const objectContent: { status: false } = {
+        status: false,
+      };
+      return objectContent;
+    }
   }
 
-  private validate_all_params(object_data: string[]): object[] {
-    let separate_contexts: any[] = [];
-
-    // Separate strings by spaces
-    object_data.forEach((e) => {
-      separate_contexts.push(e.split("\n"));
-    });
-
-    let filtered_data = separate_contexts.map((subarray) =>
+  private validateAllParams(
+    objectData: string[]
+  ): { content: string[]; status: boolean }[] {
+    const separateContexts: string[][] = objectData.map((e) => e.split("\n"));
+    const filteredData = separateContexts.map((subarray) =>
       subarray.filter((str: string) => str.trim() !== "")
     );
 
     // Organization list for processing
-    const contents = filtered_data.map((subArray: string[]) =>
-      List.organize_list(subArray)
+    const contents = filteredData.map((subArray: string[]) =>
+      List.organizeList(subArray)
     );
 
-    const validation = this.regex_match_all_params(contents);
+    const validation = this.regexMatchAllParams(contents);
 
-    let response: object[] = [];
-
-    for (let i = 0; i < validation.length; i++) {
-      let object_default = {
+    const response = validation.map((isValid, i) => {
+      return {
         content: contents[i],
-        status: false,
+        status: isValid,
       };
-
-      if (validation[i]) {
-        object_default.status = true;
-        response.push(object_default);
-      } else {
-        object_default.status = false;
-        response.push(object_default);
-      }
-    }
+    });
 
     return response;
   }
 
-  private regex_match_all_params(object_data: any[]) {
-    return object_data.map((subArray) =>
-      subArray.every((e: string) => {
-        if (RegexDefault.regex_two_numbers_int.test(e)) {
-          return true;
-        }
-
-        if (RegexDefault.regex_two_digits_one_cardinal_point.test(e)) {
-          return true;
-        }
-
-        if (RegexDefault.regex_MRL.test(e)) {
-          return true;
-        }
-
-        return false;
-      })
+  private regexMatchAllParams(objectData: any[]): boolean[] {
+    return objectData.map((subArray) =>
+      subArray.every((e: string) =>
+        [
+          RegexDefault.regexTwoNumbersInt,
+          RegexDefault.regexTwoDigitsOneCardinalPoint,
+          RegexDefault.regexMRL,
+        ].some((regex) => regex.test(e))
+      )
     );
   }
 }

@@ -1,6 +1,6 @@
 # Mars Rover Navigation System
 
-![](rover.jpeg)
+![](/static/rover.jpeg)
 
 # Mars Rover Simulator
 
@@ -133,6 +133,7 @@ Welcome to the Mars Rover Simulator, a Node.js application built with TypeScript
 
     ```shell
     |-src                      Application source code.
+    |---enums                  Folder for searching enumerables.
     |---envs                   Folder for searching environment variables, global variables, etc.
     |---scripts                Folder where the files responsible for the program logic are located, with each file having its own responsibility.
     |---utils                  Responsible for having logic where two or more classes will use the same thing.

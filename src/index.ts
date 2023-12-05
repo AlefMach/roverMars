@@ -4,7 +4,7 @@ import Coordinate from "./scripts/Coordinate";
 
 console.log("Starting automation...");
 
-const fn = async (): Promise<void> => {
+const executeAutomation = async (): Promise<void> => {
   console.log("Executing");
 
   try {
@@ -15,22 +15,25 @@ const fn = async (): Promise<void> => {
 
     if (Array.isArray(content) && content.length > 0) {
       const coordinate = new Coordinate(content);
-      response = coordinate.get_new_coordinate();
+      response = coordinate.getNewCoordinate();
 
-      response.forEach((text_value: string) => {
-        const file_path: string = "../../response_rover/response.txt"; // Value file_path default to "response.txt"
-        const file = new File(file_path);
-        file.writeTextFile(text_value);
+      response.forEach((textValue: string) => {
+        const responseFilePath: string = "../../response_rover/response.txt";
+        const responseFile = new File(responseFilePath);
+        responseFile.writeTextFile(textValue);
       });
     } else {
       console.error("Error executing file");
     }
 
     return;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     return;
   }
 };
 
-setInterval(() => fn(), EnvironmentVariable.getTimeExecutFunction());
+setInterval(
+  () => executeAutomation(),
+  EnvironmentVariable.getTimeExecutFunction()
+);
