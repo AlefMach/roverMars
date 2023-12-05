@@ -9,7 +9,7 @@ const fn = async (): Promise<void> => {
     try {
         const filePath: string = EnvironmentVariable.getFilePath();
         const file = new HandleFile(filePath);
-        const content: string[][] | void = await file.contentFile();
+        const content: string[][] | string = await file.contentFile();
         console.log(content);
         return;
     }catch(err) {

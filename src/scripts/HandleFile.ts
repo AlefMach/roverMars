@@ -21,6 +21,7 @@ class HandleFile {
         });
       } else {
         console.error(`O arquivo ${this.filePath} não foi encontrado.`);
+        return;
       }
     });
   }
@@ -109,7 +110,7 @@ class HandleFile {
     );
   }
 
-  public async contentFile(): Promise<string[][] | void> {
+  public async contentFile(): Promise<string[][] | string> {
     const file_content: { content: string[] } | { status: false } =
       await this.getTextFile();
 
@@ -139,7 +140,7 @@ class HandleFile {
       return response;
     }
 
-    return;
+    return "File not found";
   }
 }
 
