@@ -18,7 +18,7 @@ const fn = async (): Promise<void> => {
       response = coordinate.get_new_coordinate();
 
       response.forEach((text_value: string) => {
-        const file_path: string = "../../response_rover/response.txt";
+        const file_path: string = "../../response_rover/response.txt"; // Value file_path default to "response.txt"
         const file = new File(file_path);
         file.writeTextFile(text_value);
       });
