@@ -1,86 +1,88 @@
 import List from "./List";
 import Rover from "./Rover";
 import RegexDefault from "../utils/RegexDefault";
+import { CardinalDirection } from "../enums/CardinalDirection";
 
 class Coordinate {
-  private matrix_init: string[][];
+  private matrixInit: string[][];
   private list: string[] = [];
-  private list_with_only_commands: string[][] = [];
+  private listWithOnlyCommands: string[][] = [];
   private plateauWidth: number = 0;
   private plateauHeight: number = 0;
   private x: number = 0;
   private y: number = 0;
-  private cardinal_point: "N" | "S" | "E" | "W" = "N";
-  private response_rover: string[] = [];
+  private cardinalPoint: CardinalDirection = CardinalDirection.North;
+  private responseRover: string[] = [];
 
   constructor(matrix: string[][]) {
-    this.matrix_init = matrix;
+    this.matrixInit = matrix;
   }
 
-  public get_new_coordinate(): string[] {
-    this.matrix_init.forEach((list_string: string[]) => {
-      this.list = list_string;
-      this.set_rectangle_size();
-      this.list_with_only_commands = List.split_list_in_parts(this.list);
+  public getNewCoordinate(): string[] {
+    this.matrixInit.forEach((listString: string[]) => {
+      this.list = listString;
+      this.setRectangleSize();
+      this.listWithOnlyCommands = List.splitListInParts(this.list);
 
-      this.list_with_only_commands.forEach((coordinates: string[]) => {
-        this.set_x_and_y_axis(coordinates[0]);
-        this.move_rover_and_save_new_information(coordinates[1]);
+      this.listWithOnlyCommands.forEach((coordinates: string[]) => {
+        this.setXAndYAxis(coordinates[0]);
+        this.moveRoverAndSaveNewInformation(coordinates[1]);
       });
     });
 
-    const normalize_array: string[] = this.response_rover.filter(
+    const normalizedArray: string[] = this.responseRover.filter(
       (str) => str.trim() !== ""
     );
 
-
-    return normalize_array;
+    return normalizedArray;
   }
 
-  private set_rectangle_size(): void {
+  private setRectangleSize(): void {
     this.list.forEach((e: string) => {
-      if (e.match(RegexDefault.regex_two_numbers_int)) {
-        const plateauWidth_plateauHeight = e.split(/[\s]+/);
-        this.plateauWidth = parseInt(plateauWidth_plateauHeight[0], 10);
-        this.plateauHeight = parseInt(plateauWidth_plateauHeight[1], 10);
+      if (e.match(RegexDefault.regexTwoNumbersInt)) {
+        const plateauWidthPlateauHeight = e.split(/[\s]+/);
+        this.plateauWidth = parseInt(plateauWidthPlateauHeight[0], 10);
+        this.plateauHeight = parseInt(plateauWidthPlateauHeight[1], 10);
         this.list.shift();
       }
     });
   }
 
-  private set_x_and_y_axis(value: string): void {
-    if (value.match(RegexDefault.regex_two_digits_one_cardinal_point)) {
-      const coordinate_x_y_cardinal_point = value.split(/[\s]+/);
-      this.x = parseInt(coordinate_x_y_cardinal_point[0], 10);
-      this.y = parseInt(coordinate_x_y_cardinal_point[1], 10);
-      switch (coordinate_x_y_cardinal_point[2]) {
-        case "N":
-          this.cardinal_point = "N";
-          break;
-        case "S":
-          this.cardinal_point = "S";
-          break;
-        case "E":
-          this.cardinal_point = "E";
-          break;
-        case "W":
-          this.cardinal_point = "W";
-          break;
-        default:
-          break;
-      }
+  private setXAndYAxis(value: string): void {
+    if (value.match(RegexDefault.regexTwoDigitsOneCardinalPoint)) {
+      const coordinateXYCardinalPoint = value.split(/[\s]+/);
+      this.x = parseInt(coordinateXYCardinalPoint[0], 10);
+      this.y = parseInt(coordinateXYCardinalPoint[1], 10);
+      this.cardinalPoint = Coordinate.parseCardinalPoint(
+        coordinateXYCardinalPoint[2]
+      );
     }
   }
 
-  private move_rover_and_save_new_information(value: string): void {
+  private static parseCardinalPoint(value: string): CardinalDirection {
+    switch (value) {
+      case "N":
+        return CardinalDirection.North;
+      case "S":
+        return CardinalDirection.South;
+      case "E":
+        return CardinalDirection.East;
+      case "W":
+        return CardinalDirection.West;
+      default:
+        return CardinalDirection.North;
+    }
+  }
+
+  private moveRoverAndSaveNewInformation(value: string): void {
     try {
-      if (value.match(RegexDefault.regex_MRL)) {
+      if (value.match(RegexDefault.regexMRL)) {
         const rover = new Rover(
           this.plateauWidth,
           this.plateauHeight,
           this.x,
           this.y,
-          this.cardinal_point
+          this.cardinalPoint
         );
 
         const movements: string[] = value.split("");
@@ -100,20 +102,20 @@ class Coordinate {
           }
         });
 
-        const new_coordinate: string = `${
+        const newCoordinate: string = `${
           rover.getPositionX() +
           " " +
           rover.getPositionY() +
           " " +
-          rover.getDirection() + 
+          rover.getDirection() +
           "\n"
         }`;
 
-        this.response_rover.push(new_coordinate);
+        this.responseRover.push(newCoordinate);
       }
-    } catch (e) {
-      console.error("Error while processing response, error message: " + e);
-      this.response_rover.push("");
+    } catch (error) {
+      console.error("Erro ao processar a resposta. Mensagem de erro: " + error);
+      this.responseRover.push("");
     }
   }
 }

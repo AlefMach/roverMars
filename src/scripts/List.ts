@@ -1,15 +1,15 @@
 import RegexDefault from "../utils/RegexDefault";
 
 class List {
-  public static organize_list(list: string[]): string[] {
+  public static organizeList(list: string[]): string[] {
     const new_list: string[] = list.sort(
       (string_one: string, string_two: string): number => {
         // Extract the two integers from each element
         const numsA: number[] = (
-          string_one.match(RegexDefault.regex_two_numbers_int) || []
+          string_one.match(RegexDefault.regexTwoNumbersInt) || []
         ).map(Number);
         const numsB: number[] = (
-          string_two.match(RegexDefault.regex_two_numbers_int) || []
+          string_two.match(RegexDefault.regexTwoNumbersInt) || []
         ).map(Number);
 
         // Compare the two integers
@@ -21,10 +21,10 @@ class List {
 
         // Compare directions (N, S, E, W)
         const dirA: string[] = string_one.match(
-          RegexDefault.regex_two_digits_one_cardinal_point
+          RegexDefault.regexTwoDigitsOneCardinalPoint
         ) || [""];
         const dirB: string[] = string_two.match(
-          RegexDefault.regex_two_digits_one_cardinal_point
+          RegexDefault.regexTwoDigitsOneCardinalPoint
         ) || [""];
 
         if (dirA[0] !== dirB[0]) {
@@ -39,7 +39,7 @@ class List {
     return new_list;
   }
 
-  public static split_list_in_parts(list: string[]): string[][] {
+  public static splitListInParts(list: string[]): string[][] {
     const groupedItems: string[][] = [];
 
     for (let i = 0; i < list.length; i += 2) {
