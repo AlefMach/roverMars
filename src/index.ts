@@ -1,11 +1,21 @@
-require("dotenv").config();
+import HandleFile from "./scripts/HandleFile";
+import EnvironmentVariable from "./envs/EnvironmentVariable";
 
-const TIME_EXECUT_FUNCTION: string = process.env.TIME_EXECUT_FUNCTION ?? "300000";
+console.log("Starting automation...");
 
-console.log(TIME_EXECUT_FUNCTION);
+const fn = async (): Promise<void> => {
+    console.log("Executing");
+    
+    try {
+        const filePath: string = EnvironmentVariable.getFilePath();
+        const file = new HandleFile(filePath);
+        const content: string[][] | void = await file.contentFile();
+        console.log(content);
+        return;
+    }catch(err) {
+        console.error(err);
+        return;
+    }
+}
 
-console.log("Iniciando automação...");
-
-// automation code
-
-console.log("Automação concluída.");
+setInterval(() => fn(), EnvironmentVariable.getTimeExecutFunction());
