@@ -2,8 +2,18 @@
 
 Modification of method names and added a folder responsible for code ENUMS, and updating readme.md
 
+## [1.0.2] - 2023-12-06
 
-## [0.0.2] - 2023-12-05
+### Added
+
+- 
+
+### Changed
+
+- Documentation JSDoc-style 
+
+
+## [1.0.1] - 2023-12-05
 
 ### Added
 
@@ -16,7 +26,7 @@ Modification of method names and added a folder responsible for code ENUMS, and 
 - Readme.md
 
 
-## [0.0.1] - 2023-12-04
+## [1.0.0] - 2023-12-04
 
 - initial release
 

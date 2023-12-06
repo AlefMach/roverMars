@@ -1,9 +1,37 @@
+/**
+ * Class representing default regular expressions.
+ *
+ * @class RegexDefault
+ */
 class RegexDefault {
-  // Verify string matches '0 0'
+  /**
+   * Regular expression to verify a string matches '0 0'.
+   *
+   * @member {RegExp}
+   * @public
+   * @static
+   * @readonly
+   */
   public static regexTwoNumbersInt: RegExp = /^\s*\d+\s+\d+\s*$/;
-  // Verify string matches '0 1 N'
+
+  /**
+   * Regular expression to verify a string matches '0 1 N'.
+   *
+   * @member {RegExp}
+   * @public
+   * @static
+   * @readonly
+   */
   public static regexTwoDigitsOneCardinalPoint: RegExp = /^\d+\s\d+\s[NEWS]$/;
-  // Verify string matches 'MRL'
+
+  /**
+   * Regular expression to verify a string matches 'MRL'.
+   *
+   * @member {RegExp}
+   * @public
+   * @static
+   * @readonly
+   */
   public static regexMRL: RegExp = /^[MRL]+$/;
 }
 

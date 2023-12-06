@@ -2,8 +2,13 @@ import File from "./scripts/File";
 import EnvironmentVariable from "./envs/EnvironmentVariable";
 import Coordinate from "./scripts/Coordinate";
 
-console.log("Starting automation...");
-
+/**
+ * Entry point for the automation script.
+ *
+ * @function
+ * @async
+ * @returns {Promise<void>} A Promise that resolves when the automation is executed.
+ */
 const executeAutomation = async (): Promise<void> => {
   console.log("Executing");
 
@@ -33,7 +38,14 @@ const executeAutomation = async (): Promise<void> => {
   }
 };
 
+/**
+ * Set interval to execute the automation function periodically.
+ *
+ * @function
+ */
 setInterval(
   () => executeAutomation(),
   EnvironmentVariable.getTimeExecutFunction()
 );
+
+console.log("Starting automation...");
