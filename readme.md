@@ -67,7 +67,7 @@ Welcome to the Mars Rover Simulator, a Node.js application built with TypeScript
 
    - The file must contain the following information:
         - The size of the land (from the Cartesian plane), for example: **5 5**
-        - O ponto inicial do rover e o lado onde ele deverá começar (N - norte, S - sul, L - leste, O - oeste), por exemplo: **1 2 E**
+        - The rover's starting point and the side where it should start (N - north, S - south, E - east, W - west), for example: **1 2 E**
         - And finally the rover's movements, it can move just by turning 90 degrees to the right or left, and go forward, symbolized respectively by the letters "RLM", for example: **LMLMLMRLM**
             ```txt
             5 5
