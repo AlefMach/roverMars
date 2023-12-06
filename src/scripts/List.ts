@@ -1,6 +1,19 @@
 import RegexDefault from "../utils/RegexDefault";
 
+/**
+ * Class representing a List utility.
+ *
+ * @class
+ */
 class List {
+  /**
+   * Organizes a list of strings based on specific criteria.
+   *
+   * @static
+   * @method
+   * @param {string[]} list - The list of strings to be organized.
+   * @return {string[]} - The organized list.
+   */
   public static organizeList(list: string[]): string[] {
     const new_list: string[] = list.sort(
       (string_one: string, string_two: string): number => {
@@ -39,6 +52,14 @@ class List {
     return new_list;
   }
 
+  /**
+   * Splits a list of strings into grouped items.
+   *
+   * @static
+   * @method
+   * @param {string[]} list - The list of strings to be split into parts.
+   * @return {string[][]} - The grouped items.
+   */
   public static splitListInParts(list: string[]): string[][] {
     const groupedItems: string[][] = [];
 
