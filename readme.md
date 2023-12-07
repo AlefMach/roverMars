@@ -64,6 +64,8 @@ Welcome to the Mars Rover Simulator, a Node.js application built with TypeScript
     ```bash
    source .env
    ```
+    **OBS**: The default search folder will always have the "scripts" folder as a reference, so if you put the file in the root of the project, for example, it should look like this: "../../file_name.txt"
+
 
    - The file must contain the following information:
         - The size of the land (from the Cartesian plane), for example: **5 5**
