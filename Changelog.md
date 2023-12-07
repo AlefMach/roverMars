@@ -1,8 +1,8 @@
 # Changelog
 
-Modification of method names and added a folder responsible for code ENUMS, and updating readme.md
-
 ## [1.0.2] - 2023-12-06
+
+Defining documentation for the project
 
 ### Added
 
@@ -14,6 +14,8 @@ Modification of method names and added a folder responsible for code ENUMS, and 
 
 
 ## [1.0.1] - 2023-12-05
+
+Modification of method names and added a folder responsible for code ENUMS, and updating readme.md
 
 ### Added
 
